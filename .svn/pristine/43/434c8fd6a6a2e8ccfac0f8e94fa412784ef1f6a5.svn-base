@@ -1,0 +1,40 @@
+package com.yukon.atms.service;
+
+import java.util.Set;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.yukon.atms.bank.AbsenceBank;
+import com.yukon.atms.bank.AbsenceTypeBank;
+import com.yukon.atms.model.Absence;
+import com.yukon.atms.model.AbsenceType;
+
+@Controller
+@RequestMapping("/v1")
+public class WebServiceController {
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/absences", method = RequestMethod.GET, headers = "Accept=application/json", produces = {
+			"application/json" })
+	@ResponseBody
+	public Set<Absence> absences() {
+		AbsenceBank absenceBank = new AbsenceBank();
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return absenceBank.getAbsenesByEmploye(user.getUsername());
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping( value = "/types", method = RequestMethod.GET, headers = "Accept=application/json", produces = {
+			"application/json" })
+	@ResponseBody
+	public Set<AbsenceType> types() {
+		AbsenceTypeBank.init();
+		return AbsenceTypeBank.getTypes();
+	}
+	
+}

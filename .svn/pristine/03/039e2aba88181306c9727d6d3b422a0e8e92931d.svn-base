@@ -1,0 +1,77 @@
+#%RAML 0.8
+title: TestRestApp
+version: v1
+baseUri: /
+/v1: 
+    displayName: V1 Resource
+    description: V1 Resource
+    /abseces: 
+        displayName: Abseces Resource
+        description: Abseces Resource
+        /{authName}: 
+            displayName: "{authName} Resource"
+            description: "{authName} Resource"
+            /{authPass}: 
+                displayName: "{authPass} Resource"
+                description: "{authPass} Resource"
+                get: 
+                    description: auth
+                    responses: 
+                        "200": 
+                            description: Successful Response
+                            body: 
+                                application/json: 
+                                    schema: |
+                                        {
+                                          "type" : "boolean"
+                                        }
+        /{requestId}: 
+            displayName: "{requestId} Resource"
+            description: "{requestId} Resource"
+            /{authName}: 
+                displayName: "{authName} Resource"
+                description: "{authName} Resource"
+                /{authPass}: 
+                    displayName: "{authPass} Resource"
+                    description: "{authPass} Resource"
+                    get: 
+                        description: absences
+                        responses: 
+                            "200": 
+                                description: Successful Response
+                                body: 
+                                    application/json: 
+                                        schema: |
+                                            {
+                                              "type" : "array",
+                                              "items" : {
+                                                "type" : "object",
+                                                "id" : "urn:jsonschema:com:yukon:atms:model:Absence",
+                                                "properties" : {
+                                                  "absenceTypeId" : {
+                                                    "type" : "integer"
+                                                  },
+                                                  "startDateTime" : {
+                                                    "type" : "string"
+                                                  },
+                                                  "employeeExternalReference" : {
+                                                    "type" : "string"
+                                                  },
+                                                  "statusId" : {
+                                                    "type" : "integer"
+                                                  },
+                                                  "absenceTypeExternalReference" : {
+                                                    "type" : "string"
+                                                  },
+                                                  "employeeId" : {
+                                                    "type" : "integer"
+                                                  },
+                                                  "id" : {
+                                                    "type" : "integer"
+                                                  },
+                                                  "endDateTime" : {
+                                                    "type" : "string"
+                                                  }
+                                                }
+                                              }
+                                            }

@@ -1,0 +1,59 @@
+package com.yukon.atms.security;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@Configuration
+@EnableWebSecurity
+@ComponentScan( "com.yukon.atms" )
+public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
+	
+	@Autowired
+	private UserDetailsService userDetailsService;
+	
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
+	
+	@Bean
+	public PasswordEncoder passwordEncoderBean() {
+		//it's the recommended hash-generator
+		return new BCryptPasswordEncoder();
+	}
+	
+	@Override
+	protected void configure( AuthenticationManagerBuilder auth ) throws Exception {
+		//by calling other 'bean' methods the dependencies will get @Autowired properties resolved inside
+		//( so called inter-bean references )
+		auth
+			.userDetailsService( userDetailsService )
+			.passwordEncoder( passwordEncoderBean() );
+	}
+
+	
+	@Override
+	  protected void configure(HttpSecurity http) throws Exception {
+	    http
+	    //Vaadin handles CSRF protection itself?
+//	    	.csrf()
+//	    	.disable() 
+	    	.headers()
+	    	.httpStrictTransportSecurity()
+	    	.disable(); 
+	    
+	    http.authorizeRequests().antMatchers( "/v1/**" ).authenticated().and().httpBasic();
+	  }
+	
+}

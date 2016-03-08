@@ -1,0 +1,82 @@
+package com.yukon.atms.model;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
+@JsonAutoDetect
+public class Absence {
+	
+	private long id;
+
+	private int statusId;
+
+	private String startDateTime;
+
+	private String endDateTime;
+
+	private String absenceTypeExternalReference;
+
+	private long absenceTypeId;
+
+	private String employeeExternalReference;
+
+	private long employeeId;
+
+	public Absence() {
+	}
+
+	public Absence(long id, int statusId, String startDateTime, String endDateTime, String absenceTypeExternalReference,
+			long absenceTypeId, String employeeExternalReference, long employeeId) {
+		this.id = id;
+		this.statusId = statusId;
+		this.startDateTime = startDateTime;
+		this.endDateTime = endDateTime;
+		this.absenceTypeExternalReference = absenceTypeExternalReference;
+		this.absenceTypeId = absenceTypeId;
+		this.employeeExternalReference = employeeExternalReference;
+		this.employeeId = employeeId;
+	} 
+	
+	public Absence(String startDateTime, String endDateTime, long absenceTypeId, long employeeId) {
+		this.startDateTime = startDateTime;
+		this.endDateTime = endDateTime;
+		this.absenceTypeId = absenceTypeId;
+		this.employeeId = employeeId;
+	} 
+	
+	public long getId() {
+		return id;
+	}
+
+	public int getStatusId() {
+		return statusId;
+	}
+
+	public String getStartDateTime() {
+		return startDateTime;
+	}
+
+	public String getEndDateTime() {
+		return endDateTime;
+	}
+
+	public String getAbsenceTypeExternalReference() {
+		return absenceTypeExternalReference;
+	}
+
+	public long getAbsenceTypeId() {
+		return absenceTypeId;
+	}
+
+	public String getEmployeeExternalReference() {
+		return employeeExternalReference;
+	}
+
+	public long getEmployeeId() {
+		return employeeId;
+	}
+	
+	public void setStatusId(int statusId){
+		this.statusId = statusId;
+	}
+
+}
